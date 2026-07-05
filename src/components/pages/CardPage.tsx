@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import ReactMarkdown from 'react-markdown';
 import { CardPageConfig } from '@/types/page';
 
@@ -30,6 +31,25 @@ const markdownComponents = {
 };
 
 export default function CardPage({ config, embedded = false }: { config: CardPageConfig; embedded?: boolean }) {
+    const groupedItems = config.items.reduce(
+        (groups, item, index) => {
+            const category = item.category ?? '';
+            const currentGroup = groups.at(-1);
+
+            if (!currentGroup || currentGroup.category !== category) {
+                groups.push({ category, items: [{ item, index }] });
+            } else {
+                currentGroup.items.push({ item, index });
+            }
+
+            return groups;
+        },
+        [] as Array<{
+            category: string;
+            items: Array<{ item: CardPageConfig['items'][number]; index: number }>;
+        }>
+    );
+
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -47,43 +67,73 @@ export default function CardPage({ config, embedded = false }: { config: CardPag
                 )}
             </div>
 
-            <div className={`grid ${embedded ? "gap-4" : "gap-6"}`}>
-                {config.items.map((item, index) => (
-                    <motion.div
-                        key={index}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.4, delay: 0.1 * index }}
-                        className={`bg-white dark:bg-neutral-900 ${embedded ? "p-4" : "p-6"} rounded-xl shadow-sm border border-neutral-200 dark:border-neutral-800 hover:shadow-lg transition-all duration-200 hover:scale-[1.01]`}
-                    >
-                        <div className="flex justify-between items-start mb-2">
-                            <h3 className={`${embedded ? "text-lg" : "text-xl"} font-semibold text-primary`}>{item.title}</h3>
-                            {item.date && (
-                                <span className="text-sm text-neutral-500 font-medium bg-neutral-100 dark:bg-neutral-800 px-2 py-1 rounded">
-                                    {item.date}
-                                </span>
-                            )}
+            <div className={embedded ? "space-y-6" : "space-y-10"}>
+                {groupedItems.map((group, groupIndex) => (
+                    <section key={`${group.category}-${groupIndex}`}>
+                        {group.category && (
+                            <h2 className={`${embedded ? "text-xl" : "text-2xl"} font-serif font-bold text-primary mb-5`}>
+                                {group.category}
+                            </h2>
+                        )}
+                        <div className={`grid ${embedded ? "gap-4" : "gap-6"} ${group.items.some(({ item }) => item.image) ? "md:grid-cols-2" : ""}`}>
+                            {group.items.map(({ item, index }) => (
+                                <motion.article
+                                    key={`${item.title}-${index}`}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.4, delay: 0.1 * index }}
+                                    className="bg-white dark:bg-neutral-900 rounded-xl shadow-sm border border-neutral-200 dark:border-neutral-800 overflow-hidden hover:shadow-lg transition-all duration-200 hover:scale-[1.01]"
+                                >
+                                    {item.image && (
+                                        <a
+                                            href={item.image}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            aria-label={`${item.subtitle ?? item.title} award certificate`}
+                                            className="relative block aspect-[4/3] bg-neutral-50 dark:bg-neutral-800"
+                                        >
+                                            <Image
+                                                src={item.image}
+                                                alt={`${item.subtitle ?? item.title} award certificate`}
+                                                fill
+                                                sizes="(min-width: 768px) 50vw, 100vw"
+                                                className="object-contain p-3"
+                                            />
+                                        </a>
+                                    )}
+                                    <div className={embedded ? "p-4" : "p-6"}>
+                                        <div className="flex justify-between items-start gap-4 mb-2">
+                                            <h3 className={`${embedded ? "text-lg" : "text-xl"} font-semibold text-primary`}>{item.title}</h3>
+                                            {item.date && (
+                                                <span className="shrink-0 text-sm text-neutral-500 font-medium bg-neutral-100 dark:bg-neutral-800 px-2 py-1 rounded">
+                                                    {item.date}
+                                                </span>
+                                            )}
+                                        </div>
+                                        {item.subtitle && (
+                                            <p className={`${embedded ? "text-sm" : "text-base"} text-accent font-medium mb-3`}>{item.subtitle}</p>
+                                        )}
+                                        {item.content && (
+                                            <div className={`${embedded ? "text-sm" : "text-base"} text-neutral-600 dark:text-neutral-500 leading-relaxed`}>
+                                                <ReactMarkdown components={markdownComponents}>
+                                                    {item.content}
+                                                </ReactMarkdown>
+                                            </div>
+                                        )}
+                                        {item.tags && (
+                                            <div className="flex flex-wrap gap-2 mt-4">
+                                                {item.tags.map(tag => (
+                                                    <span key={tag} className="text-xs text-neutral-500 bg-neutral-50 dark:bg-neutral-800/50 px-2 py-1 rounded border border-neutral-100 dark:border-neutral-800">
+                                                        {tag}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                </motion.article>
+                            ))}
                         </div>
-                        {item.subtitle && (
-                            <p className={`${embedded ? "text-sm" : "text-base"} text-accent font-medium mb-3`}>{item.subtitle}</p>
-                        )}
-                        {item.content && (
-                            <div className={`${embedded ? "text-sm" : "text-base"} text-neutral-600 dark:text-neutral-500 leading-relaxed`}>
-                                <ReactMarkdown components={markdownComponents}>
-                                    {item.content}
-                                </ReactMarkdown>
-                            </div>
-                        )}
-                        {item.tags && (
-                            <div className="flex flex-wrap gap-2 mt-4">
-                                {item.tags.map(tag => (
-                                    <span key={tag} className="text-xs text-neutral-500 bg-neutral-50 dark:bg-neutral-800/50 px-2 py-1 rounded border border-neutral-100 dark:border-neutral-800">
-                                        {tag}
-                                    </span>
-                                ))}
-                            </div>
-                        )}
-                    </motion.div>
+                    </section>
                 ))}
             </div>
         </motion.div>

@@ -1,27 +1,42 @@
 type = "card"
 title = "Awards"
-description = "Selected competitions and honors."
+description = "Selected academic competitions and honors. Click a certificate to view the original."
 
 [[items]]
-title = "National Second Prize"
-subtitle = "National Intelligent Vehicle Competition"
-date = ""
-content = "National-level competition award."
+title = "National Finals, Second Prize"
+subtitle = "China Robot and Artificial Intelligence Competition · Intelligent Vehicle F1 Challenge"
+category = "Academic Competitions"
+date = "2022"
+content = "The 24th China Robot and Artificial Intelligence Competition National Finals."
+image = "/awards/ai-competition-national-second.png"
 
 [[items]]
-title = "National Second Prize"
-subtitle = "Artificial Intelligence Competition"
-date = ""
-content = "National-level competition award."
+title = "National Finals, Second Prize (Undergraduate Group B)"
+subtitle = "Datang Cup National College 5G Technology Competition"
+category = "Academic Competitions"
+date = "2022"
+content = "The 9th Datang Cup National College Mobile Communication 5G Technology Competition."
+image = "/awards/datang-cup-national-second.png"
 
 [[items]]
-title = "National Second Prize"
-subtitle = "Chinese Collegiate Computing Competition"
-date = ""
-content = "National-level competition award."
+title = "National Finals, Second Prize"
+subtitle = "National University Intelligent Vehicle Competition · Aerospace Smart Logistics"
+category = "Academic Competitions"
+date = "2022"
+content = "The 17th National University Intelligent Vehicle Competition."
+image = "/awards/intelligent-vehicle-national-second.png"
+
+[[items]]
+title = "Provincial Selection, First Prize"
+subtitle = "Chinese Collegiate Computing Competition · Artificial Intelligence Challenge"
+category = "Academic Competitions"
+date = "2022"
+content = "Autonomous Driving Challenge, project: *Platinum Star*."
+image = "/awards/computer-design-provincial-first.png"
 
 [[items]]
 title = "Outstanding Graduate and Merit Student"
 subtitle = "Academic Honors"
+category = "General Honors"
 date = ""
 content = "Recognized for academic performance and comprehensive achievement."

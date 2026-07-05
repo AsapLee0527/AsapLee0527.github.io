@@ -1,27 +1,42 @@
 type = "card"
 title = "奖项荣誉"
-description = "代表性竞赛与综合荣誉。"
+description = "代表性学科竞赛与综合荣誉；点击证书可查看原图。"
 
 [[items]]
-title = "国家二等奖"
-subtitle = "智能车竞赛"
-date = ""
-content = "国家级学科竞赛奖项。"
+title = "全国总决赛二等奖"
+subtitle = "中国机器人及人工智能大赛·智能车 F1 挑战赛"
+category = "学科竞赛"
+date = "2022"
+content = "第二十四届中国机器人及人工智能大赛全国总决赛。"
+image = "/awards/ai-competition-national-second.png"
 
 [[items]]
-title = "国家二等奖"
-subtitle = "人工智能大赛"
-date = ""
-content = "国家级学科竞赛奖项。"
+title = "全国总决赛本科 B 组二等奖"
+subtitle = "“大唐杯”全国大学生移动通信 5G 技术大赛"
+category = "学科竞赛"
+date = "2022"
+content = "第九届“大唐杯”全国大学生移动通信 5G 技术大赛。"
+image = "/awards/datang-cup-national-second.png"
 
 [[items]]
-title = "国家二等奖"
-subtitle = "计算机设计大赛"
-date = ""
-content = "国家级学科竞赛奖项。"
+title = "全国总决赛二等奖"
+subtitle = "全国大学生智能汽车竞赛·航天智慧物流组"
+category = "学科竞赛"
+date = "2022"
+content = "第十七届全国大学生智能汽车竞赛。"
+image = "/awards/intelligent-vehicle-national-second.png"
+
+[[items]]
+title = "省级选拔赛一等奖"
+subtitle = "中国大学生计算机设计大赛·人工智能挑战赛"
+category = "学科竞赛"
+date = "2022"
+content = "无人驾驶挑战赛，参赛作品《白金之星》。"
+image = "/awards/computer-design-provincial-first.png"
 
 [[items]]
 title = "优秀毕业生、三好学生"
 subtitle = "综合荣誉"
+category = "综合荣誉"
 date = ""
 content = "在校期间获得的综合素质与学业荣誉。"
