@@ -41,6 +41,14 @@ export interface LocaleMessages {
     abstract: string;
     bibtex: string;
     code: string;
+    pdf: string;
+    figures: string;
+    statusPublished: string;
+    statusAccepted: string;
+    statusUnderReview: string;
+    statusSubmitted: string;
+    statusInPreparation: string;
+    statusDraft: string;
   };
   footer: {
     lastUpdated: string;
@@ -91,6 +99,14 @@ const en: LocaleMessages = {
     abstract: 'Abstract',
     bibtex: 'BibTeX',
     code: 'Code',
+    pdf: 'PDF',
+    figures: 'Key Figures',
+    statusPublished: 'Published',
+    statusAccepted: 'Accepted',
+    statusUnderReview: 'Under Review',
+    statusSubmitted: 'Submitted',
+    statusInPreparation: 'In Preparation',
+    statusDraft: 'Draft',
   },
   footer: {
     lastUpdated: 'Last updated',
@@ -141,6 +157,14 @@ const zh: LocaleMessages = {
     abstract: '摘要',
     bibtex: 'BibTeX',
     code: '代码',
+    pdf: '论文 PDF',
+    figures: '代表图',
+    statusPublished: '已发表',
+    statusAccepted: '已接收',
+    statusUnderReview: '审稿中',
+    statusSubmitted: '已投稿',
+    statusInPreparation: '准备中',
+    statusDraft: '草稿',
   },
   footer: {
     lastUpdated: '最近更新',

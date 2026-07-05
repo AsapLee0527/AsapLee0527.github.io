@@ -9,6 +9,11 @@ export interface Author {
   isCoAuthor?: boolean;
 }
 
+export interface PublicationFigure {
+  src: string;
+  caption?: string;
+}
+
 export type BibTeXInlineNode =
   | { type: 'text'; text: string }
   | {
@@ -50,6 +55,7 @@ export interface Publication {
   featured?: boolean;
   selected?: boolean;
   preview?: string;
+  figures?: PublicationFigure[];
   summary?: string;
   researchArea: ResearchArea;
   description?: string;

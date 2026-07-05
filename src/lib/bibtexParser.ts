@@ -1,4 +1,4 @@
-import { Publication, PublicationType, ResearchArea } from '@/types/publication';
+import { Publication, PublicationStatus, PublicationType, ResearchArea } from '@/types/publication';
 import { getConfig } from './config';
 import { getRuntimeI18nConfig } from './i18n/config';
 import { parseBibTeXInline } from './bibtexInline';
@@ -62,6 +62,22 @@ export function parseBibTeX(bibtexContent: string, locale?: string): Publication
 
     // Parse preview field (remove braces if present)
     const preview = tags.preview?.replace(/[{}]/g, '');
+    const figureNames = tags.figures?.split('|').map((value: string) => value.trim()).filter(Boolean) || [];
+    const figureCaptions = tags.figurecaptions?.split('|').map((value: string) => value.trim()) || [];
+    const figures = figureNames.map((src: string, figureIndex: number) => ({
+      src,
+      caption: figureCaptions[figureIndex] || undefined,
+    }));
+    const rawStatus = tags.status?.toLowerCase().replace(/[\s_]+/g, '-') as PublicationStatus;
+    const validStatuses: PublicationStatus[] = [
+      'published',
+      'accepted',
+      'under-review',
+      'submitted',
+      'in-preparation',
+      'draft',
+    ];
+    const status = validStatuses.includes(rawStatus) ? rawStatus : 'published';
     const title = parseBibTeXInline(tags.title || 'Untitled');
 
     // Create publication object
@@ -73,7 +89,7 @@ export function parseBibTeX(bibtexContent: string, locale?: string): Publication
       year,
       month: monthMapping[tags.month?.toLowerCase()] ? String(month) : tags.month,
       type,
-      status: 'published',
+      status,
       tags: keywords,
       keywords,
       researchArea: detectResearchArea(tags.title, keywords),
@@ -87,13 +103,26 @@ export function parseBibTeX(bibtexContent: string, locale?: string): Publication
       doi: tags.doi,
       url: tags.url,
       code: tags.code,
+      pdfUrl: tags.pdf || tags.pdfurl,
       abstract: cleanBibTeXString(tags.abstract),
       description: cleanBibTeXString(tags.description || tags.note),
       selected,
       preview,
+      figures: figures.length > 0 ? figures : undefined,
 
       // Store original BibTeX (excluding custom fields)
-      bibtex: reconstructBibTeX(entry, ['selected', 'preview', 'description', 'keywords', 'code']),
+      bibtex: reconstructBibTeX(entry, [
+        'selected',
+        'preview',
+        'figures',
+        'figurecaptions',
+        'description',
+        'keywords',
+        'code',
+        'pdf',
+        'pdfurl',
+        'status',
+      ]),
     };
 
     // Clean up undefined fields

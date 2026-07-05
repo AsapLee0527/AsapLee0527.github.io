@@ -1,4 +1,4 @@
 type = "publication"
 title = "论文成果"
-description = "多模态学习、脑网络与医学人工智能方向的研究成果。"
+description = "多模态学习、脑网络与医学人工智能方向的已发表、已接收及在投研究。"
 source = "publications.bib"

@@ -31,6 +31,14 @@ export default function PublicationsList({ config, publications, embedded = fals
     const [showFilters, setShowFilters] = useState(false);
     const [expandedBibtexId, setExpandedBibtexId] = useState<string | null>(null);
     const [expandedAbstractId, setExpandedAbstractId] = useState<string | null>(null);
+    const statusLabels: Record<Publication['status'], string> = {
+        published: messages.publications.statusPublished,
+        accepted: messages.publications.statusAccepted,
+        'under-review': messages.publications.statusUnderReview,
+        submitted: messages.publications.statusSubmitted,
+        'in-preparation': messages.publications.statusInPreparation,
+        draft: messages.publications.statusDraft,
+    };
 
     // Extract unique years and types for filters
     const years = useMemo(() => {
@@ -230,9 +238,21 @@ export default function PublicationsList({ config, publications, embedded = fals
                                             </span>
                                         ))}
                                     </p>
-                                    <p className="text-sm font-medium text-neutral-800 dark:text-neutral-600 mb-3">
-                                        {pub.journal || pub.conference} {pub.year}
-                                    </p>
+                                    <div className="flex flex-wrap items-center gap-2 mb-3">
+                                        <p className="text-sm font-medium text-neutral-800 dark:text-neutral-300">
+                                            {pub.journal || pub.conference} {pub.year}
+                                        </p>
+                                        <span className={cn(
+                                            "inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold",
+                                            pub.status === 'under-review' || pub.status === 'submitted'
+                                                ? "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300"
+                                                : pub.status === 'accepted'
+                                                    ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300"
+                                                    : "bg-sky-100 text-sky-800 dark:bg-sky-900/30 dark:text-sky-300"
+                                        )}>
+                                            {statusLabels[pub.status]}
+                                        </span>
+                                    </div>
 
                                     {pub.description && (
                                         <p className="text-sm text-neutral-600 dark:text-neutral-500 mb-4 line-clamp-3">
@@ -259,6 +279,17 @@ export default function PublicationsList({ config, publications, embedded = fals
                                                 className="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-accent hover:text-white transition-colors"
                                             >
                                                 {messages.publications.code}
+                                            </a>
+                                        )}
+                                        {pub.pdfUrl && (
+                                            <a
+                                                href={pub.pdfUrl}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-accent text-white hover:bg-accent-dark transition-colors"
+                                            >
+                                                <DocumentTextIcon className="h-3 w-3 mr-1.5" />
+                                                {messages.publications.pdf}
                                             </a>
                                         )}
                                         {pub.abstract && (
@@ -335,6 +366,38 @@ export default function PublicationsList({ config, publications, embedded = fals
                                     </AnimatePresence>
                                 </div>
                             </div>
+                            {pub.figures && pub.figures.length > 0 && (
+                                <div className="mt-6 pt-5 border-t border-neutral-200 dark:border-neutral-800">
+                                    <h4 className="text-sm font-semibold uppercase tracking-[0.14em] text-neutral-500 dark:text-neutral-400 mb-4">
+                                        {messages.publications.figures}
+                                    </h4>
+                                    <div className={`grid grid-cols-1 gap-4 ${pub.figures.length > 1 ? "lg:grid-cols-2" : ""}`}>
+                                        {pub.figures.map((figure, figureIndex) => (
+                                            <figure key={`${figure.src}-${figureIndex}`}>
+                                                <a
+                                                    href={`/papers/${figure.src}`}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="group relative block h-72 sm:h-80 rounded-lg overflow-hidden border border-neutral-200 dark:border-neutral-700 bg-white"
+                                                >
+                                                    <Image
+                                                        src={`/papers/${figure.src}`}
+                                                        alt={figure.caption || `${pub.title} figure ${figureIndex + 1}`}
+                                                        fill
+                                                        className="object-contain p-3 transition-transform duration-300 group-hover:scale-[1.02]"
+                                                        sizes={(pub.figures?.length ?? 0) > 1 ? "(min-width: 1024px) 40vw, 90vw" : "90vw"}
+                                                    />
+                                                </a>
+                                                {figure.caption && (
+                                                    <figcaption className="mt-2 text-xs leading-relaxed text-neutral-500 dark:text-neutral-400">
+                                                        {figure.caption}
+                                                    </figcaption>
+                                                )}
+                                            </figure>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
                         </motion.div>
                     ))
                 )}
