@@ -1,5 +1,15 @@
-I am a PhD student at the School of Science, University of Example, advised by [Prof. Advisor One](https://example.com) and [Dr. Advisor Two](https://example.com).
+I am an M.Sc. student in Information and Communication Engineering at
+**Harbin Institute of Technology, Shenzhen**, expected to graduate in March 2027.
+My interests lie at the intersection of vision-language models, action learning,
+and interactive agents.
 
-Prior to this, I obtained a BSc degree with First Class Honours in Natural Science from the University of Example.
+I am currently a **VLM/VLA Algorithm Intern at Tencent IEG / Turing Lab**, where
+I work on data pipelines, chain-of-thought navigation SFT, online inference and
+evaluation, and combat-policy SFT/RL for a general game agent. Previously, I
+worked at **Woan Robotics** on UMI data processing, VLA/ACT training, and
+dual-arm robot deployment.
 
-My current research focuses on investigating the mathematical principles of natural philosophy.
+I am seeking algorithm engineering opportunities in **multimodal learning,
+VLA, embodied intelligence, and reinforcement learning**.
+
+[Download my CV](/liying-resume.pdf)

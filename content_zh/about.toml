@@ -3,9 +3,10 @@ title = "关于我"
 
 [profile]
 research_interests = [
-  "计算物理",
-  "数学原理",
-  "定理证明"
+  "视觉语言动作模型",
+  "通用游戏智能体",
+  "具身智能",
+  "多模态学习"
 ]
 
 [[sections]]
@@ -17,12 +18,12 @@ title = "关于我"
 [[sections]]
 id = "featured_publications"
 type = "publications"
-title = "精选论文"
+title = "代表论文"
 filter = "selected"
 limit = 5
 
 [[sections]]
 id = "news"
 type = "list"
-title = "动态"
+title = "近期动态"
 source = "news.toml"

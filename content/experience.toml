@@ -1,0 +1,40 @@
+type = "card"
+title = "Experience"
+description = "My industry experience in game agents and embodied intelligence."
+
+[[items]]
+title = "VLM / VLA Algorithm Intern"
+subtitle = "Tencent IEG / Turing Lab"
+date = "Mar 2026 - Present"
+content = """
+**Data:** Built a daily game-trajectory pipeline covering synchronized
+20 FPS video/action resampling, quality filtering, E2E/L2-reference annotation,
+frame alignment, validation, and S3 publishing.
+
+**Training:** Fine-tuned a Qwen3.5-4B navigation actor with action-grounded
+chain-of-thought supervision and a V3 degree-based action protocol, reaching
+**70.7% Pass@1** on the navigation test set. Also worked on combat SFT and
+critic-free token-level PPO-Clip.
+
+**Inference:** Implemented vLLM streaming action parsing, latest-frame
+consumption, stop/abort semantics, navigation-combat routing, and automated
+in-game video evaluation.
+"""
+
+[[items]]
+title = "VLM / VLA Algorithm Intern"
+subtitle = "Woan Robotics"
+date = "Nov 2025 - Feb 2026"
+content = """
+**Data:** Built Isaac Lab assets and scripted pick-and-place collection, then
+normalized heterogeneous multi-vendor UMI trajectories across cameras,
+instructions, dual-arm poses, coordinate systems, and control frequency.
+
+**Training:** Fine-tuned a pi0.5 VLA policy in simulation and trained ACT for
+real robots, supporting Expert-only and Vision-LoRA-plus-Expert strategies with
+a dual-arm 16D delta-pose action space.
+
+**Deployment:** Implemented online delta-pose accumulation and coordinate
+conversion, generated target end-effector and gripper commands, and integrated
+the inference output with the control-side IK interface.
+"""

@@ -1,7 +1,11 @@
 [[news]]
-date = "2025-11"
-content = "Our work has been accepted by a prestigious journal 🎉"
+date = "2026-03"
+content = "Joined Tencent IEG / Turing Lab as a VLM/VLA Algorithm Intern."
 
 [[news]]
-date = "2025-09"
-content = "Starting my PhD at the University of Example"
+date = "2026"
+content = "Our multimodal brain network analysis work was accepted by ICASSP 2026."
+
+[[news]]
+date = "2025"
+content = "Our review on self-supervised learning for brain disorders was published in Health Data Science."

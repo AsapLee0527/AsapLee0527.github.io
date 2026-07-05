@@ -1,0 +1,35 @@
+type = "card"
+title = "Projects"
+description = "Selected projects in VLA, agents, and multimodal learning."
+
+[[items]]
+title = "General Game Agent"
+subtitle = "Vision-Language-Action Agent"
+date = "2026"
+content = """
+A brain-cerebellum game-agent architecture: a large vision-language model
+handles long-horizon planning and navigation/combat routing, while compact VLA
+actors execute high-frequency keyboard and mouse actions. My work covers the
+small-model data, COT navigation SFT, combat SFT/RL, inference, and evaluation
+pipeline.
+"""
+
+[[items]]
+title = "UMI Robot VLA"
+subtitle = "Dual-arm Manipulation"
+date = "2025 - 2026"
+content = """
+An end-to-end UMI pipeline spanning simulated and real data, pi0.5/ACT policy
+training, 16D dual-arm delta-pose prediction, online target-pose reconstruction,
+and integration with inverse-kinematics control.
+"""
+
+[[items]]
+title = "Interpretable Multimodal Brain Network Analysis"
+subtitle = "Dynamic Graph Learning"
+date = "2024 - 2026"
+content = """
+Research on disentanglement-driven dynamic graph learning for interpretable
+multimodal brain network analysis, with related work published at ICASSP and
+Health Data Science.
+"""

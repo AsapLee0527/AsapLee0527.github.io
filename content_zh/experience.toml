@@ -1,0 +1,36 @@
+type = "card"
+title = "实习经历"
+description = "围绕通用游戏智能体与具身智能开展数据、训练和推理闭环工作。"
+
+[[items]]
+title = "VLM / VLA 算法实习生"
+subtitle = "腾讯 IEG / Turing Lab"
+date = "2026.03 - 至今"
+content = """
+**数据处理：**搭建游戏轨迹数据流水线，完成 COS 每日同步、视频与 Proto 动作
+20 FPS 联合下采样、不可操作片段过滤与质量裁剪、E2E/L2 Reference 指令标注、
+帧号校正、数据校验及 S3 标准化发布。
+
+**模型训练：**基于 Qwen3.5-4B 完成导航小脑 COT SFT，利用 Gemini 与真实动作轨迹
+生成变长 Thinking Point，落地 V3 累计角度动作协议及分组 Loss，导航测试集
+**Pass@1 达到 70.7%**；参与战斗模型 SFT 与无 Critic 的 Token-level PPO-Clip。
+
+**推理评测：**基于 vLLM 实现 COT/V3 Action 流式解析、最新帧消费、Stop/指令切换
+中断及导航/战斗路由；搭建实机自动评测链路，完成任务下发、视频录制与成功判定。
+"""
+
+[[items]]
+title = "VLM / VLA 算法实习生"
+subtitle = "卧安机器人"
+date = "2025.11 - 2026.02"
+content = """
+**数据处理：**在 Isaac Lab 搭建仿真资产并脚本化采集 Pick-and-Place 轨迹，完成
+多厂家真机 UMI 异构数据接入与规范化，统一多视角图像、任务指令、双臂末端位姿、
+坐标系和时间频率。
+
+**模型训练：**完成仿真 pi0.5 VLA 微调与真机 ACT 行为克隆训练，落地冻结 VLM 的
+Expert-only 和 Vision LoRA + Expert 两套策略，将动作输出适配为双臂 16D Delta Pose。
+
+**推理部署：**实现 16D Delta Pose 在线累积与坐标转换，生成目标末端位姿及夹爪
+命令，通过固定消息协议对接控制侧 IK 求解与机械臂执行，打通图像、指令到真机动作闭环。
+"""

@@ -1,27 +1,27 @@
 type = "card"
 title = "Awards"
-description = "Honors and awards I have received."
+description = "Selected competitions and honors."
 
 [[items]]
-title = "Example Award"
-subtitle = "Organization"
-date = "2025"
-content = "Description of the award."
+title = "National Second Prize"
+subtitle = "National Intelligent Vehicle Competition"
+date = ""
+content = "National-level competition award."
 
 [[items]]
-title = "Example Award"
-subtitle = "Organization"
-date = "2024"
-content = "Description of the award."
+title = "National Second Prize"
+subtitle = "Artificial Intelligence Competition"
+date = ""
+content = "National-level competition award."
 
 [[items]]
-title = "Example Award"
-subtitle = "Organization"
-date = "2023"
-content = "Description of the award."
+title = "National Second Prize"
+subtitle = "Chinese Collegiate Computing Competition"
+date = ""
+content = "National-level competition award."
 
 [[items]]
-title = "Example Award"
-subtitle = "Organization"
-date = "2022"
-content = "Description of the award."
+title = "Outstanding Graduate and Merit Student"
+subtitle = "Academic Honors"
+date = ""
+content = "Recognized for academic performance and comprehensive achievement."

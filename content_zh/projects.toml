@@ -1,0 +1,31 @@
+type = "card"
+title = "项目经历"
+description = "VLA、智能体与多模态学习方向的代表项目。"
+
+[[items]]
+title = "通用游戏 Agent"
+subtitle = "Vision-Language-Action Agent"
+date = "2026"
+content = """
+构建“大脑规划 + 小脑执行”的通用游戏智能体：大脑负责长程任务拆解和导航/战斗
+模式切换，小脑负责高频键鼠动作执行。个人主要负责小脑侧数据处理、导航 COT SFT、
+战斗 SFT/RL、在线推理及自动化评测闭环。
+"""
+
+[[items]]
+title = "UMI 机器人 VLA"
+subtitle = "双臂操作"
+date = "2025 - 2026"
+content = """
+搭建贯通仿真与真机的 UMI 数据、训练和部署链路，完成 pi0.5/ACT 策略训练、
+双臂 16D Delta Pose 预测、目标位姿在线恢复及 IK 控制接口对接。
+"""
+
+[[items]]
+title = "可解释多模态脑网络分析"
+subtitle = "动态图学习"
+date = "2024 - 2026"
+content = """
+研究基于特征解耦与动态图学习的多模态脑网络建模方法，提高脑疾病分析的可解释性；
+相关成果发表于 ICASSP 与 Health Data Science。
+"""

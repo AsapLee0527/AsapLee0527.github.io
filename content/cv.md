@@ -1,26 +1,30 @@
+[Download PDF CV](/liying-resume.pdf)
+
 ## Education
 
-**The University of Example**, PhD in Natural Science, *2025 - Present*
-- Research focus: Mathematical Principles of Natural Philosophy
-- Supervisor: Prof. Advisor One and Dr. Advisor Two
+**Harbin Institute of Technology, Shenzhen**, M.Sc. in Information and
+Communication Engineering, *Sep 2024 - Mar 2027*
 
-**The University of Example**, BSc in Natural Science, *2021 - 2025*
-- Graduated with First Class Honours
+**Changsha University of Science and Technology**, B.Eng. in Communication
+Engineering, *Sep 2020 - Jun 2024*
 
 ## Experience
 
-**Example Role**
-Company/Institution
-*2023 - 2024*
-- Description of key responsibilities and achievements.
-- Utilized skills to solve problems.
+**Tencent IEG / Turing Lab**, VLM/VLA Algorithm Intern, *Mar 2026 - Present*
+
+- Game-trajectory data processing and instruction annotation.
+- Qwen3.5-4B COT navigation SFT and combat-policy SFT/RL.
+- vLLM online inference, model routing, and automated in-game evaluation.
+
+**Woan Robotics**, VLM/VLA Algorithm Intern, *Nov 2025 - Feb 2026*
+
+- Simulated and real UMI data processing.
+- pi0.5 VLA fine-tuning and ACT behavior cloning.
+- 16D delta-pose inference and IK deployment integration.
 
 ## Skills
 
-- **Programming:** Python, C++, MATLAB, LaTeX
-- **Data Analysis:** Pandas, NumPy, SciPy
-- **Languages:** English (Native), French (Fluent)
-
-## Awards & Honors
-
-- **First Prize in Example Competition** - Committee of Example (*2024*)
+- **Models:** VLM, VLA, SFT, PPO, behavior cloning, multimodal learning
+- **Engineering:** Python, PyTorch, DeepSpeed, vLLM, LeRobot, Linux, Docker,
+  Git, FFmpeg, OpenCV, Protobuf, COS/S3
+- **Languages:** Chinese (native), English (CET-6 535, GRE 310)
