@@ -7,17 +7,37 @@ title = "VLM / VLA 算法实习生"
 subtitle = "腾讯 IEG / Turing Lab"
 date = "2026.03 - 至今"
 content = """
+参与通用游戏 Agent 研发，采用“**大脑规划 + 小脑执行**”架构：大脑负责长程任务
+拆解、导航/战斗模型切换及 OOD 状态处理，小脑负责将视觉观察和自然语言指令转换为
+可执行键鼠动作。个人主要负责小脑侧数据处理、导航 COT SFT、战斗 SFT/RL 和推理评测。
+
 **数据处理：**搭建游戏轨迹数据流水线，完成 COS 每日同步、视频与 Proto 动作
 20 FPS 联合下采样、不可操作片段过滤与质量裁剪、E2E/L2 Reference 指令标注、
-帧号校正、数据校验及 S3 标准化发布。
+帧号校正、数据校验及 S3 标准化发布，为导航和战斗训练提供统一轨迹样本。
 
-**模型训练：**基于 Qwen3.5-4B 完成导航小脑 COT SFT，利用 Gemini 与真实动作轨迹
-生成变长 Thinking Point，落地 V3 累计角度动作协议及分组 Loss，导航测试集
-**Pass@1 达到 70.7%**；参与战斗模型 SFT 与无 Critic 的 Token-level PPO-Clip。
+**COT 导航：**基于 Qwen3.5-4B 完成导航小脑 SFT，利用 Gemini 和真实动作轨迹生成
+变长 Thinking Point，使模型先推理局部子目标、再输出 action chunk。落地 V3 累计角度
+动作协议，将多个 mouse delta 合并为角度动作，并对 thinking/action token 进行分组监督，
+导航测试集 **Pass@1 达到 70.7%**。
 
-**推理评测：**基于 vLLM 实现 COT/V3 Action 流式解析、最新帧消费、Stop/指令切换
-中断及导航/战斗路由；搭建实机自动评测链路，完成任务下发、视频录制与成功判定。
+**战斗模型：**参与战斗小脑 SFT 与在线 RL 训练，围绕 session / rollout / replay buffer
+构建闭环：模型在实机战斗中按 200ms action group 输出连续键鼠动作，系统根据 Boss
+血量、玩家血量、体力、距离等状态计算 reward；训练侧将 session 切分为 chunk，对模型
+轨迹使用无 Critic 的 Token-level PPO-Clip 更新，对人类接管轨迹使用 SFT CE 对齐。
+
+**推理评测：**基于 vLLM 实现 COT/V3 Action 流式解析、最新帧消费、Stop/指令切换中断、
+导航/战斗路由及实机自动评测链路，完成任务下发、视频录制、动作执行和成功判定闭环。
 """
+videoGroupTitle = "小脑 Demo：COT 导航与战斗执行"
+videos = [
+    { title = "COT 导航：寺庙", src = "/demos/navigation/temple.mp4", description = "根据大脑下发的长程导航指令，小脑结合当前视野进行局部路径跟随和视角控制。" },
+    { title = "COT 导航：灵芝", src = "/demos/navigation/lingzhi.mp4", description = "通过 Thinking Point 拆解短程子目标，并输出连续 action chunk 完成采集/到达任务。" },
+    { title = "COT 导航：转身穿过木桥", src = "/demos/navigation/wooden-bridge-turn.mp4", description = "展示转向、过桥等需要视角调整与移动协同的导航指令遵循能力。" },
+    { title = "战斗：大头", src = "/demos/combat/big-head.mp4", description = "战斗小脑基于画面状态输出连续键鼠动作，完成接近、闪避和攻击节奏控制。" },
+    { title = "战斗：白衣秀士", src = "/demos/combat/white-clad-noble.mp4", description = "展示模型在 Boss 战中的动作决策、距离保持和技能释放时机。" },
+    { title = "战斗：黑熊精", src = "/demos/combat/black-bear-spirit.mp4", description = "展示战斗策略在高压场景下的连续操作和闭环反馈执行效果。" },
+]
+tags = ["Game Agent", "Qwen3.5-4B", "COT SFT", "PPO-Clip", "vLLM"]
 
 [[items]]
 title = "VLM / VLA 算法实习生"

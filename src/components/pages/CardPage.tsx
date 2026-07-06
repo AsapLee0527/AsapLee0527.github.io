@@ -120,6 +120,42 @@ export default function CardPage({ config, embedded = false }: { config: CardPag
                                                 </ReactMarkdown>
                                             </div>
                                         )}
+                                        {item.videos && item.videos.length > 0 && (
+                                            <div className="mt-5">
+                                                {item.videoGroupTitle && (
+                                                    <h4 className={`${embedded ? "text-base" : "text-lg"} font-semibold text-primary mb-3`}>
+                                                        {item.videoGroupTitle}
+                                                    </h4>
+                                                )}
+                                                <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                                                    {item.videos.map(video => (
+                                                        <figure
+                                                            key={video.src}
+                                                            className="overflow-hidden rounded-lg border border-neutral-200 bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-950"
+                                                        >
+                                                            <video
+                                                                controls
+                                                                playsInline
+                                                                preload="metadata"
+                                                                poster={video.poster}
+                                                                className="aspect-video w-full bg-black object-contain"
+                                                            >
+                                                                <source src={video.src} type="video/mp4" />
+                                                                Your browser does not support the video tag.
+                                                            </video>
+                                                            <figcaption className="p-3">
+                                                                <p className="text-sm font-semibold text-primary">{video.title}</p>
+                                                                {video.description && (
+                                                                    <p className="mt-1 text-xs leading-relaxed text-neutral-500 dark:text-neutral-500">
+                                                                        {video.description}
+                                                                    </p>
+                                                                )}
+                                                            </figcaption>
+                                                        </figure>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
                                         {item.tags && (
                                             <div className="flex flex-wrap gap-2 mt-4">
                                                 {item.tags.map(tag => (

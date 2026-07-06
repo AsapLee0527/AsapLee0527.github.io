@@ -23,6 +23,13 @@ export interface CardItem {
     tags?: string[];
     link?: string;
     image?: string;
+    videoGroupTitle?: string;
+    videos?: Array<{
+        title: string;
+        src: string;
+        description?: string;
+        poster?: string;
+    }>;
 }
 
 export interface CardPageConfig extends BasePageConfig {

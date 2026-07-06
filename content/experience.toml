@@ -7,19 +7,46 @@ title = "VLM / VLA Algorithm Intern"
 subtitle = "Tencent IEG / Turing Lab"
 date = "Mar 2026 - Present"
 content = """
-**Data:** Built a daily game-trajectory pipeline covering synchronized
-20 FPS video/action resampling, quality filtering, E2E/L2-reference annotation,
-frame alignment, validation, and S3 publishing.
+Worked on a general game agent built with a **cortex-planner + cerebellum-actor**
+architecture. The cortex decomposes long-horizon tasks, routes between navigation
+and combat policies, and handles OOD states; the cerebellum converts visual
+observations and natural-language instructions into executable keyboard/mouse
+actions. I focused on the cerebellum-side data pipeline, COT navigation SFT,
+combat SFT/RL, inference, and evaluation.
 
-**Training:** Fine-tuned a Qwen3.5-4B navigation actor with action-grounded
-chain-of-thought supervision and a V3 degree-based action protocol, reaching
-**70.7% Pass@1** on the navigation test set. Also worked on combat SFT and
-critic-free token-level PPO-Clip.
+**Data:** Built a daily trajectory pipeline covering COS synchronization,
+20 FPS video/proto action resampling, quality filtering, clip trimming,
+E2E/L2-reference instruction annotation, frame alignment, validation, and S3
+publishing for both navigation and combat training.
 
-**Inference:** Implemented vLLM streaming action parsing, latest-frame
-consumption, stop/abort semantics, navigation-combat routing, and automated
-in-game video evaluation.
+**COT navigation:** Fine-tuned a Qwen3.5-4B navigation actor with Gemini-derived,
+action-grounded variable-length thinking points. Implemented the V3 cumulative
+degree action protocol, merged mouse deltas into angle-level actions, and applied
+grouped supervision over thinking/action tokens, reaching **70.7% Pass@1** on the
+navigation test set.
+
+**Combat policy:** Worked on combat SFT and online RL. The rollout service lets
+the policy play real battles in 200ms action groups, records sessions into replay
+buffers, and computes rewards from boss HP, player HP, stamina, distance, and
+combat state. The trainer chunks sessions into token-level samples, applies
+critic-free PPO-Clip on model-generated actions, and uses SFT CE on human-takeover
+segments.
+
+**Inference and evaluation:** Implemented vLLM streaming COT/V3 action parsing,
+latest-frame consumption, stop/abort semantics, navigation-combat routing, and
+automated in-game evaluation covering task dispatch, video recording, action
+execution, and success judgement.
 """
+videoGroupTitle = "Cerebellum Demos: COT Navigation and Combat"
+videos = [
+    { title = "COT Navigation: Temple", src = "/demos/navigation/temple.mp4", description = "The actor follows a long-horizon navigation instruction with local path following and camera control." },
+    { title = "COT Navigation: Lingzhi", src = "/demos/navigation/lingzhi.mp4", description = "Thinking points decompose the task into short-horizon goals before emitting continuous action chunks." },
+    { title = "COT Navigation: Turn and Cross Bridge", src = "/demos/navigation/wooden-bridge-turn.mp4", description = "A navigation case requiring coordinated turning, movement, and visual feedback." },
+    { title = "Combat: Big Head", src = "/demos/combat/big-head.mp4", description = "The combat actor controls approach, dodge, and attack timing from visual observations." },
+    { title = "Combat: White-Clad Noble", src = "/demos/combat/white-clad-noble.mp4", description = "A boss-fight example showing distance keeping, action timing, and skill execution." },
+    { title = "Combat: Black Bear Spirit", src = "/demos/combat/black-bear-spirit.mp4", description = "A high-pressure combat scenario demonstrating continuous closed-loop control." },
+]
+tags = ["Game Agent", "Qwen3.5-4B", "COT SFT", "PPO-Clip", "vLLM"]
 
 [[items]]
 title = "VLM / VLA Algorithm Intern"
