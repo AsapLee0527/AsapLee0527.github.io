@@ -9,24 +9,35 @@ date = "2026.03 - 至今"
 content = """
 参与通用游戏 Agent 研发，采用“**大脑规划 + 小脑执行**”架构：大脑负责长程任务
 拆解、导航/战斗模型切换及 OOD 状态处理，小脑负责将视觉观察和自然语言指令转换为
-可执行键鼠动作。个人主要负责小脑侧数据处理、导航 COT SFT、战斗 SFT/RL 和推理评测。
+可执行键鼠动作。个人主要负责小脑侧从数据、训练到在线推理评测的闭环，包括导航
+COT 指令遵循、战斗 SFT/RL 以及 vLLM 实机部署。
 
-**数据处理：**搭建游戏轨迹数据流水线，完成 COS 每日同步、视频与 Proto 动作
-20 FPS 联合下采样、不可操作片段过滤与质量裁剪、E2E/L2 Reference 指令标注、
-帧号校正、数据校验及 S3 标准化发布，为导航和战斗训练提供统一轨迹样本。
+**数据处理与标注：**搭建每日轨迹处理流水线，从 COS 同步游戏日志、视频和 proto
+动作，统一下采样到 20 FPS，并按时间戳对齐画面、键盘、鼠标位移和环境状态。流水线
+会过滤死亡、菜单、卡顿、不可操作等低质量片段，裁剪高质量 clip，并结合 E2E 标注和
+L2 Reference 标注生成可训练 instruction。最终完成帧号补齐、动作合法性检查、样本
+schema 校验和 S3 发布，使导航 SFT、战斗 SFT/RL、推理回放使用同一套标准数据。
 
-**COT 导航：**基于 Qwen3.5-4B 完成导航小脑 SFT，利用 Gemini 和真实动作轨迹生成
-变长 Thinking Point，使模型先推理局部子目标、再输出 action chunk。落地 V3 累计角度
-动作协议，将多个 mouse delta 合并为角度动作，并对 thinking/action token 进行分组监督，
-导航测试集 **Pass@1 达到 70.7%**。
+**COT 导航小脑：**基于 Qwen3.5-4B 训练导航指令遵循模型。数据构造上，先由 Gemini
+结合视频观察和真实动作轨迹生成变长 Thinking Point，每个 TP 描述当前局部目标、视角
+调整和移动意图；训练样本再将若干 TP 组织成短程 Think-Act 片段，让模型在看到当前帧
+和历史上下文后先输出推理，再输出 action chunk。动作协议采用 V3 累计角度格式，将
+200ms 窗口内的多个 mouse delta 聚合成角度动作，并和键盘动作共同 tokenizer 成监督
+目标。训练时区分 thinking/action token 的监督权重，重点让模型学会 xy 角度、按键组合
+和 `stop` 时机，在导航测试集 **Pass@1 达到 70.7%**。
 
-**战斗模型：**参与战斗小脑 SFT 与在线 RL 训练，围绕 session / rollout / replay buffer
-构建闭环：模型在实机战斗中按 200ms action group 输出连续键鼠动作，系统根据 Boss
-血量、玩家血量、体力、距离等状态计算 reward；训练侧将 session 切分为 chunk，对模型
-轨迹使用无 Critic 的 Token-level PPO-Clip 更新，对人类接管轨迹使用 SFT CE 对齐。
+**战斗小脑 SFT/RL：**参与战斗模型训练闭环。Rollout 阶段，当前 policy 在实机战斗中
+根据画面和历史动作每 200ms 输出一个 action group，客户端执行后回传 Boss 血量、玩家
+血量、体力、距离、棍势和战斗事件等状态，形成一局 session。系统将 session 写入
+replay buffer，并根据伤害、存活、受击、距离控制等信号计算 step reward 和轨迹 reward。
+训练阶段按连续控制者将 session 切成 model/human segment，再切成多轮视觉对话 chunk：
+模型产生的轨迹使用无 Critic 的 Token-level PPO-Clip 做 policy update，人类接管轨迹
+使用 SFT Cross Entropy 做动作模仿，从而同时保留探索收益和专家操作稳定性。
 
-**推理评测：**基于 vLLM 实现 COT/V3 Action 流式解析、最新帧消费、Stop/指令切换中断、
-导航/战斗路由及实机自动评测链路，完成任务下发、视频录制、动作执行和成功判定闭环。
+**推理与自动评测：**基于 vLLM 搭建小脑在线推理服务，实现最新帧消费、COT/V3 Action
+流式解析、动作合法化、`stop` 判断、指令切换中断和导航/战斗模型路由。评测侧打通任务
+下发、游戏录制、轨迹回放、成功判定和失败样本回收，形成“数据采集 -> 训练 -> 实机验证
+-> 回流修正”的迭代闭环。
 """
 videoGroupTitle = "小脑 Demo：COT 导航与战斗执行"
 videos = [
@@ -44,13 +55,28 @@ title = "VLM / VLA 算法实习生"
 subtitle = "卧安机器人"
 date = "2025.11 - 2026.02"
 content = """
-**数据处理：**在 Isaac Lab 搭建仿真资产并脚本化采集 Pick-and-Place 轨迹，完成
-多厂家真机 UMI 异构数据接入与规范化，统一多视角图像、任务指令、双臂末端位姿、
-坐标系和时间频率。
+围绕双臂机器人操作任务参与 VLA 数据、训练和部署闭环，工作覆盖 Isaac Sim/Isaac Lab
+仿真环境、UMI 真机数据采集、pi0.5/ACT 训练，以及模型输出到机械臂控制接口的适配。
 
-**模型训练：**完成仿真 pi0.5 VLA 微调与真机 ACT 行为克隆训练，落地冻结 VLM 的
-Expert-only 和 Vision LoRA + Expert 两套策略，将动作输出适配为双臂 16D Delta Pose。
+**仿真数据与训练：**在 Isaac Lab 中搭建桌面 Pick-and-Place 场景、相机、夹爪和任务
+资产，脚本化生成多视角图像、语言指令、双臂末端位姿和夹爪状态。基于仿真轨迹完成
+pi0.5 VLA 微调，并在 Isaac Sim 中接入模型推理，验证从视觉观察和任务指令到机器人动作
+的闭环执行。
 
-**推理部署：**实现 16D Delta Pose 在线累积与坐标转换，生成目标末端位姿及夹爪
-命令，通过固定消息协议对接控制侧 IK 求解与机械臂执行，打通图像、指令到真机动作闭环。
+**真机数据与行为克隆：**接入多厂家 UMI 真机数据，统一多视角图像、任务文本、双臂
+末端 pose、夹爪状态、坐标系和控制频率，构造 ACT 行为克隆训练样本。训练侧支持冻结
+VLM 的 Expert-only 策略，以及 Vision LoRA + Expert 策略，将模型动作空间适配为双臂
+16D Delta Pose。
+
+**真机推理部署：**实现 16D Delta Pose 在线累积、坐标变换和动作限幅，将模型输出转换
+为双臂目标末端位姿和夹爪命令；通过固定消息协议对接控制侧 IK 求解与机械臂执行，完成
+从图像、语言指令到真机动作的实时闭环。
 """
+videoGroupTitle = "卧安 Demo：仿真数据、仿真推理、真机 UMI 与真机推理"
+videos = [
+    { title = "仿真数据生成：UMI 轨迹", src = "/demos/woan/simulation-umi.mp4", description = "在仿真环境中生成可用于模仿学习的多视角观察、任务指令和动作轨迹。" },
+    { title = "Isaac Sim 仿真推理", src = "/demos/woan/simulation-roboarm.mp4", description = "将微调后的 VLA 策略接入 Isaac Sim，验证仿真中的闭环操作执行。" },
+    { title = "真机 UMI 数据采集", src = "/demos/woan/roboarm-data-collection.mp4", description = "采集真实双臂操作数据，并统一图像、末端位姿、夹爪状态和时间频率。" },
+    { title = "真机机械臂推理", src = "/demos/woan/robotarm-inference.mp4", description = "将模型输出的 16D Delta Pose 转换为控制侧可执行的双臂目标位姿与夹爪命令。" },
+]
+tags = ["Isaac Sim", "Isaac Lab", "UMI", "pi0.5", "ACT", "Robot Deployment"]

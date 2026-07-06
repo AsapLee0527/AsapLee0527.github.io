@@ -11,31 +11,50 @@ Worked on a general game agent built with a **cortex-planner + cerebellum-actor*
 architecture. The cortex decomposes long-horizon tasks, routes between navigation
 and combat policies, and handles OOD states; the cerebellum converts visual
 observations and natural-language instructions into executable keyboard/mouse
-actions. I focused on the cerebellum-side data pipeline, COT navigation SFT,
-combat SFT/RL, inference, and evaluation.
+actions. I focused on the cerebellum-side full loop: data processing, COT
+navigation instruction following, combat SFT/RL, vLLM inference, and in-game
+evaluation.
 
-**Data:** Built a daily trajectory pipeline covering COS synchronization,
-20 FPS video/proto action resampling, quality filtering, clip trimming,
-E2E/L2-reference instruction annotation, frame alignment, validation, and S3
-publishing for both navigation and combat training.
+**Data and annotation:** Built a daily trajectory pipeline that synchronizes game
+videos, proto actions, and logs from COS, resamples observations and keyboard/mouse
+actions to 20 FPS, and aligns them by timestamp. The pipeline filters invalid
+segments such as death, menus, stalls, and non-controllable states, trims high
+quality clips, and generates trainable instructions from E2E annotations and
+L2-reference labels. It also performs frame completion, action validation, schema
+checks, and S3 publishing so navigation SFT, combat SFT/RL, and inference replay
+share the same standardized data format.
 
-**COT navigation:** Fine-tuned a Qwen3.5-4B navigation actor with Gemini-derived,
-action-grounded variable-length thinking points. Implemented the V3 cumulative
-degree action protocol, merged mouse deltas into angle-level actions, and applied
-grouped supervision over thinking/action tokens, reaching **70.7% Pass@1** on the
+**COT navigation actor:** Fine-tuned a Qwen3.5-4B navigation actor for
+instruction following. In data construction, Gemini reads the video observation
+and ground-truth action trace to produce variable-length thinking points that
+describe local goals, camera adjustments, and movement intent. Training samples
+then organize multiple thinking points into short-horizon Think-Act segments, so
+the model predicts reasoning followed by an executable action chunk from the
+current frame and history. The V3 action protocol aggregates mouse deltas within
+a 200ms window into cumulative degree-level actions and combines them with
+keyboard actions as tokenized targets. Grouped supervision emphasizes xy angle
+tokens, key combinations, and `stop` timing, reaching **70.7% Pass@1** on the
 navigation test set.
 
-**Combat policy:** Worked on combat SFT and online RL. The rollout service lets
-the policy play real battles in 200ms action groups, records sessions into replay
-buffers, and computes rewards from boss HP, player HP, stamina, distance, and
-combat state. The trainer chunks sessions into token-level samples, applies
-critic-free PPO-Clip on model-generated actions, and uses SFT CE on human-takeover
-segments.
+**Combat actor SFT/RL:** Worked on the combat training loop. During rollout, the
+current policy plays real battles and emits one action group every 200ms. The
+client executes the action and returns boss HP, player HP, stamina, distance,
+focus points, and combat events, forming a complete session. Sessions are written
+to the replay buffer, where rewards are computed from damage, survival, hit
+avoidance, distance control, and trajectory-level outcomes. During training,
+sessions are split by controller into model/human segments and then into
+multi-turn visual-dialogue chunks. Model-generated segments use critic-free
+token-level PPO-Clip for policy updates, while human takeover segments use SFT
+cross entropy for imitation, combining exploration gains with stable expert
+behavior.
 
-**Inference and evaluation:** Implemented vLLM streaming COT/V3 action parsing,
-latest-frame consumption, stop/abort semantics, navigation-combat routing, and
-automated in-game evaluation covering task dispatch, video recording, action
-execution, and success judgement.
+**Inference and evaluation:** Built the online cerebellum inference service with
+vLLM, including latest-frame consumption, streaming COT/V3 action parsing, action
+sanitization, `stop` judgement, instruction-switch interruption, and navigation
+/ combat policy routing. The evaluation loop handles task dispatch, game video
+recording, trajectory replay, success judgement, and failure-case collection,
+closing the iteration loop from data collection to training, in-game validation,
+and data refinement.
 """
 videoGroupTitle = "Cerebellum Demos: COT Navigation and Combat"
 videos = [
@@ -53,15 +72,34 @@ title = "VLM / VLA Algorithm Intern"
 subtitle = "Woan Robotics"
 date = "Nov 2025 - Feb 2026"
 content = """
-**Data:** Built Isaac Lab assets and scripted pick-and-place collection, then
-normalized heterogeneous multi-vendor UMI trajectories across cameras,
-instructions, dual-arm poses, coordinate systems, and control frequency.
+Worked on the data, training, and deployment loop for dual-arm robotic
+manipulation, covering Isaac Sim / Isaac Lab simulation, UMI real-robot data
+collection, pi0.5 / ACT training, and action adaptation from model output to the
+robot control interface.
 
-**Training:** Fine-tuned a pi0.5 VLA policy in simulation and trained ACT for
-real robots, supporting Expert-only and Vision-LoRA-plus-Expert strategies with
-a dual-arm 16D delta-pose action space.
+**Simulation data and training:** Built tabletop pick-and-place scenes, cameras,
+grippers, and task assets in Isaac Lab. Scripted collection of multi-view images,
+language instructions, dual-arm end-effector poses, and gripper states. Fine-tuned
+a pi0.5 VLA policy on simulation trajectories and connected the policy to Isaac
+Sim for closed-loop inference validation.
 
-**Deployment:** Implemented online delta-pose accumulation and coordinate
-conversion, generated target end-effector and gripper commands, and integrated
-the inference output with the control-side IK interface.
+**Real-robot data and behavior cloning:** Integrated heterogeneous multi-vendor
+UMI data and normalized multi-view images, task text, dual-arm poses, gripper
+states, coordinate systems, and control frequency. Constructed ACT behavior
+cloning samples and supported both Expert-only and Vision-LoRA-plus-Expert
+training strategies with a dual-arm 16D delta-pose action space.
+
+**Real-robot deployment:** Implemented online accumulation, coordinate conversion,
+and action clipping for 16D Delta Pose outputs, then converted model predictions
+into target end-effector poses and gripper commands. Integrated the inference
+output with the control-side IK interface through a fixed message protocol,
+closing the real-time loop from images and language instructions to robot actions.
 """
+videoGroupTitle = "Woan Demos: Simulation Data, Sim Inference, UMI, and Real-Robot Inference"
+videos = [
+    { title = "Simulation Data: UMI Trajectories", src = "/demos/woan/simulation-umi.mp4", description = "Generating imitation-learning trajectories with multi-view observations, task instructions, and actions in simulation." },
+    { title = "Isaac Sim Inference", src = "/demos/woan/simulation-roboarm.mp4", description = "Running the fine-tuned VLA policy in Isaac Sim to validate closed-loop manipulation." },
+    { title = "Real-Robot UMI Collection", src = "/demos/woan/roboarm-data-collection.mp4", description = "Collecting real dual-arm operation data and aligning images, end-effector poses, gripper states, and timing." },
+    { title = "Real-Robot Arm Inference", src = "/demos/woan/robotarm-inference.mp4", description = "Converting 16D Delta Pose predictions into executable target poses and gripper commands for the robot controller." },
+]
+tags = ["Isaac Sim", "Isaac Lab", "UMI", "pi0.5", "ACT", "Robot Deployment"]
