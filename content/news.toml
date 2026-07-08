@@ -1,6 +1,10 @@
 [[news]]
-date = "2026-03"
+date = "2026-01"
 content = "Joined Tencent IEG / Turing Lab as a VLM/VLA Algorithm Intern."
+
+[[news]]
+date = "2026"
+content = "Our MARTA work on brain disorder diagnosis was accepted by WAICA 2026 (CCF-A)."
 
 [[news]]
 date = "2026"

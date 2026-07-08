@@ -5,7 +5,7 @@ description = "My industry experience in game agents and embodied intelligence."
 [[items]]
 title = "VLM / VLA Algorithm Intern"
 subtitle = "Tencent IEG / Turing Lab"
-date = "Mar 2026 - Present"
+date = "Jan 2026 - Present"
 content = """
 Worked on a general game agent built with a **cortex-planner + cerebellum-actor**
 architecture. The cortex decomposes long-horizon tasks, routes between navigation
@@ -70,7 +70,7 @@ tags = ["Game Agent", "Qwen3.5-4B", "COT SFT", "PPO-Clip", "vLLM"]
 [[items]]
 title = "VLM / VLA Algorithm Intern"
 subtitle = "Woan Robotics"
-date = "Nov 2025 - Feb 2026"
+date = "Nov 2025 - Jan 2026"
 content = """
 Worked on the data, training, and deployment loop for dual-arm robotic
 manipulation, covering Isaac Sim / Isaac Lab simulation, UMI real-robot data
