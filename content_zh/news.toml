@@ -5,6 +5,7 @@ content = "加入腾讯 IEG / Turing Lab，担任 VLM/VLA 算法实习生。"
 [[news]]
 date = "2026"
 content = "MARTA 脑疾病诊断工作被 WAICA 2026（CCF-A）接收。"
+images = ["/papers/1.JPG", "/papers/2.JPG", "/papers/3.JPG"]
 
 [[news]]
 date = "2026"

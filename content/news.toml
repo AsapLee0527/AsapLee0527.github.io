@@ -5,6 +5,7 @@ content = "Joined Tencent IEG / Turing Lab as a VLM/VLA Algorithm Intern."
 [[news]]
 date = "2026"
 content = "Our MARTA work on brain disorder diagnosis was accepted by WAICA 2026 (CCF-A)."
+images = ["/papers/1.JPG", "/papers/2.JPG", "/papers/3.JPG"]
 
 [[news]]
 date = "2026"
