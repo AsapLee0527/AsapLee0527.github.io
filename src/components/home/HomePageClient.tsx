@@ -2,6 +2,7 @@
 
 import Profile from '@/components/home/Profile';
 import About from '@/components/home/About';
+import ProjectShowcase from '@/components/home/ProjectShowcase';
 import SelectedPublications from '@/components/home/SelectedPublications';
 import News, { NewsItem } from '@/components/home/News';
 import PublicationsList from '@/components/publications/PublicationsList';
@@ -66,6 +67,8 @@ export default function HomePageClient({ dataByLocale, defaultLocale }: HomePage
         </div>
 
         <div className="lg:col-span-2 space-y-8">
+          <ProjectShowcase locale={locale} />
+
           {data.pagesToShow.map((page) => (
             <section key={page.id} id={page.id} className="scroll-mt-24 space-y-8">
               {page.type === 'about' && page.sections.map((section: SectionConfig) => {
